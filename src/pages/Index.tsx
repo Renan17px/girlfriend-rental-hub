@@ -59,8 +59,8 @@ function ProfileCard({ profile }: { profile: FeaturedProfile }) {
             </span>
           )}
           {profile.online && (
-            <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 px-2.5 py-1 text-xs font-medium text-emerald-700 dark:text-emerald-400">
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" /> Online
+            <span className="inline-flex items-center gap-1 rounded-full bg-accent/15 px-2.5 py-1 text-xs font-medium text-accent-foreground">
+              <span className="h-1.5 w-1.5 rounded-full bg-accent" /> Online
             </span>
           )}
         </div>
