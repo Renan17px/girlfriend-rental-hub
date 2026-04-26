@@ -128,8 +128,14 @@ const Index = () => {
             ))}
           </nav>
           <div className="flex items-center gap-2">
-            <Button variant="ghost" className="hidden sm:inline-flex">Entrar</Button>
-            <Button className="rounded-full px-5">Criar conta</Button>
+            {user ? (
+              <UserMenu />
+            ) : (
+              <>
+                <Button variant="ghost" className="hidden sm:inline-flex" onClick={() => openAuth("login")}>Entrar</Button>
+                <Button className="rounded-full px-5" onClick={() => openAuth("signup")}>Criar conta</Button>
+              </>
+            )}
           </div>
         </div>
       </header>
@@ -168,8 +174,8 @@ const Index = () => {
                   className="w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground"
                 />
               </div>
-              <Button size="lg" className="h-12 rounded-xl bg-foreground text-background hover:bg-foreground/90">
-                Buscar agora
+              <Button size="lg" className="h-12 rounded-xl bg-foreground text-background hover:bg-foreground/90" asChild>
+                <Link to="/busca">Buscar agora</Link>
               </Button>
             </div>
 
@@ -213,7 +219,9 @@ const Index = () => {
                 Selecionados por avaliações, verificação e relevância para você.
               </p>
             </div>
-            <Button variant="outline" className="rounded-full">Explorar todos</Button>
+            <Button variant="outline" className="rounded-full" asChild>
+              <Link to="/busca">Explorar todos</Link>
+            </Button>
           </div>
           <motion.div
             initial="hidden"
@@ -298,7 +306,7 @@ const Index = () => {
                     </li>
                   ))}
                 </ul>
-                <Button className="mt-8 w-full rounded-full" variant={plan.highlight ? "default" : "outline"}>
+                <Button className="mt-8 w-full rounded-full" variant={plan.highlight ? "default" : "outline"} onClick={() => handleSelectPlan(plan)}>
                   Escolher plano
                 </Button>
               </article>
@@ -352,7 +360,7 @@ const Index = () => {
           <p className="mx-auto mt-4 max-w-xl text-white/85">
             Cadastro gratuito em menos de um minuto. Cancele quando quiser.
           </p>
-          <Button size="lg" className="mt-8 rounded-full bg-white px-8 text-primary hover:bg-white/90">
+          <Button size="lg" className="mt-8 rounded-full bg-white px-8 text-primary hover:bg-white/90" onClick={() => openAuth("signup")}>
             Criar minha conta
           </Button>
         </motion.section>
