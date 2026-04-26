@@ -10,7 +10,7 @@ export function UserDashboardPage() {
   return (
     <main className="mx-auto flex w-full max-w-7xl flex-1 flex-col gap-6 px-4 py-8 sm:px-6 md:py-10">
       <header className="flex items-center justify-between">
-        <p className="text-xl font-semibold text-primary">RentalGirl</p>
+        <p className="text-xl font-semibold text-primary">RentAGirl</p>
         <div className="flex items-center gap-2">
           <Button variant="ghost" asChild>
             <Link to="/">Inicio</Link>
