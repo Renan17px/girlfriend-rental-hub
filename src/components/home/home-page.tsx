@@ -1,6 +1,5 @@
-
 import Image from "@/components/ui/image";
-import { motion } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 import {
   Heart,
   MessageCircle,
@@ -21,18 +20,47 @@ import {
   testimonials,
   type FeaturedProfile,
 } from "@/lib/mock-data";
+import { getProfileDetails } from "@/lib/profile-mock";
 import { cn } from "@/lib/utils";
 import { useUiStore } from "@/store/ui-store";
+import { useOverlays, requireAuth } from "@/store/overlays-store";
+import { useAuth } from "@/context/AuthContext";
+import { UserMenu } from "@/components/auth/UserMenu";
 
-const fadeInUp = {
-  hidden: { opacity: 0, y: 22 },
-  visible: { opacity: 1, y: 0 },
+// Slide-in-right animations
+const slideInRight: Variants = {
+  hidden: { x: "100%", opacity: 0 },
+  visible: { x: 0, opacity: 1, transition: { duration: 0.4, ease: "easeOut" } },
+};
+
+const staggerContainer: Variants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.1 } },
+};
+
+const cardSlideIn: Variants = {
+  hidden: { x: 60, opacity: 0 },
+  visible: { x: 0, opacity: 1, transition: { duration: 0.4, ease: "easeOut" } },
+};
+
+const sectionProps = {
+  initial: "hidden" as const,
+  whileInView: "visible" as const,
+  viewport: { once: true, amount: 0.15 },
+  variants: slideInRight,
 };
 
 function ProfileCard({ profile }: { profile: FeaturedProfile }) {
+  const { openProfileDrawer } = useOverlays();
+
+  const handleOpen = () => {
+    const details = getProfileDetails(profile.id);
+    if (details) openProfileDrawer(details);
+  };
+
   return (
     <motion.article
-      variants={fadeInUp}
+      variants={cardSlideIn}
       className="group overflow-hidden rounded-3xl border border-border bg-card shadow-sm transition-all hover:-translate-y-1 hover:shadow-xl"
     >
       <div className="relative h-64 w-full overflow-hidden">
@@ -85,8 +113,8 @@ function ProfileCard({ profile }: { profile: FeaturedProfile }) {
           )}
         </div>
         <div className="flex gap-2">
-          <Button className="flex-1" asChild>
-            <Link to={`/perfil/${profile.id}`}>Ver perfil</Link>
+          <Button className="flex-1" onClick={handleOpen}>
+            Ver perfil
           </Button>
           <Button variant="secondary" className="flex-1" asChild>
             <Link to="/chat">Chat</Link>
@@ -119,10 +147,36 @@ function ThemeToggle() {
 
 export function HomePage() {
   const { theme } = useUiStore();
+  const { user } = useAuth();
+  const { openCheckout } = useOverlays();
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", theme === "dark");
   }, [theme]);
+
+  const parsePrice = (price: string) => {
+    const match = price.match(/(\d+),(\d+)/);
+    if (!match) return 0;
+    return parseInt(match[1], 10) * 100 + parseInt(match[2], 10);
+  };
+
+  const handleSelectPlan = (plan: (typeof plans)[number]) => {
+    const cents = parsePrice(plan.price);
+    if (cents === 0) {
+      // Plano gratuito: apenas exige login
+      requireAuth(!!user, () => {
+        // Já logado/agora logado
+      });
+      return;
+    }
+    requireAuth(!!user, () => {
+      openCheckout({
+        type: "plan",
+        name: plan.name,
+        amountCents: cents,
+      });
+    });
+  };
 
   return (
     <main className="mx-auto flex w-full max-w-7xl flex-1 flex-col gap-20 px-4 py-8 sm:px-6 md:py-12">
@@ -136,27 +190,20 @@ export function HomePage() {
             <Link to="/busca">Buscar perfis</Link>
           </Button>
           <Button variant="ghost" asChild>
-            <Link to="/cadastro">Criar conta</Link>
-          </Button>
-          <Button variant="ghost" asChild>
             <Link to="/painel">Painel</Link>
-          </Button>
-          <Button variant="ghost" asChild>
-            <Link to="/pagamentos">Pagamentos</Link>
-          </Button>
-          <Button variant="ghost" asChild>
-            <Link to="/verificacao">Verificacao</Link>
           </Button>
           <Button variant="ghost" asChild>
             <Link to="/chat">Chat</Link>
           </Button>
+          <UserMenu />
         </div>
       </div>
+
       <motion.section
         className="overflow-hidden rounded-[2rem] bg-gradient-to-br from-[#880e4f] via-[#c2185b] to-[#e91e63] px-6 py-12 text-white shadow-2xl sm:px-10"
         initial="hidden"
         animate="visible"
-        variants={fadeInUp}
+        variants={slideInRight}
       >
         <div className="mb-8 flex items-center justify-between gap-4">
           <span className="inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1 text-sm backdrop-blur-sm">
@@ -187,24 +234,23 @@ export function HomePage() {
       </motion.section>
 
       <motion.section
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.2 }}
-        variants={fadeInUp}
+        {...sectionProps}
+        variants={staggerContainer}
         className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4"
       >
         {platformStats.map((item) => (
-          <div
+          <motion.div
             key={item.label}
+            variants={cardSlideIn}
             className="rounded-2xl border border-border bg-card p-5 shadow-sm"
           >
             <p className="text-3xl font-semibold text-primary">{item.value}</p>
             <p className="mt-1 text-sm text-muted-foreground">{item.label}</p>
-          </div>
+          </motion.div>
         ))}
       </motion.section>
 
-      <section className="space-y-6">
+      <motion.section {...sectionProps} className="space-y-6">
         <div className="flex items-center justify-between">
           <h2 className="text-3xl font-semibold">Perfis em destaque</h2>
           <Button variant="outline" asChild>
@@ -212,56 +258,27 @@ export function HomePage() {
           </Button>
         </div>
         <motion.div
+          variants={staggerContainer}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.15 }}
-          variants={{
-            hidden: {},
-            visible: {
-              transition: {
-                staggerChildren: 0.08,
-              },
-            },
-          }}
           className="grid gap-5 md:grid-cols-2 xl:grid-cols-3"
         >
           {featuredProfiles.map((profile) => (
             <ProfileCard key={profile.id} profile={profile} />
           ))}
         </motion.div>
-      </section>
-
-      <motion.section
-        className="grid gap-5 rounded-3xl border border-border bg-card p-6 md:grid-cols-3"
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.2 }}
-        variants={fadeInUp}
-      >
-        {testimonials.map((item) => (
-          <div
-            key={item.author}
-            className="rounded-2xl border border-border/60 bg-background p-4"
-          >
-            <p className="text-sm leading-relaxed text-muted-foreground">
-              &ldquo;{item.text}&rdquo;
-            </p>
-            <p className="mt-3 text-sm font-semibold text-primary">
-              {item.author}
-            </p>
-          </div>
-        ))}
       </motion.section>
 
-      <motion.section
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.2 }}
-        variants={fadeInUp}
-        className="space-y-6"
-      >
+      <motion.section {...sectionProps} className="space-y-6">
         <h2 className="text-3xl font-semibold">Como funciona</h2>
-        <div className="grid gap-4 md:grid-cols-3">
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          className="grid gap-4 md:grid-cols-3"
+        >
           {[
             {
               title: "1. Busque",
@@ -279,30 +296,32 @@ export function HomePage() {
               text: "Viva uma experiencia unica com companhia alinhada ao seu estilo.",
             },
           ].map((step) => (
-            <div
+            <motion.div
               key={step.title}
+              variants={cardSlideIn}
               className="rounded-2xl border border-border bg-card p-5"
             >
               <step.icon className="h-6 w-6 text-primary" />
               <h3 className="mt-4 text-xl font-semibold">{step.title}</h3>
               <p className="mt-2 text-sm text-muted-foreground">{step.text}</p>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </motion.section>
 
-      <motion.section
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.2 }}
-        variants={fadeInUp}
-        className="space-y-6"
-      >
+      <motion.section {...sectionProps} className="space-y-6">
         <h2 className="text-3xl font-semibold">Planos e precos</h2>
-        <div className="grid gap-4 md:grid-cols-3">
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          className="grid gap-4 md:grid-cols-3"
+        >
           {plans.map((plan) => (
-            <article
+            <motion.article
               key={plan.name}
+              variants={cardSlideIn}
               className={cn(
                 "rounded-3xl border p-6",
                 plan.highlight
@@ -312,9 +331,7 @@ export function HomePage() {
             >
               <p className="text-sm text-muted-foreground">{plan.name}</p>
               <p className="mt-2 text-3xl font-semibold">{plan.price}</p>
-              <p className="mt-2 text-sm text-muted-foreground">
-                {plan.description}
-              </p>
+              <p className="mt-2 text-sm text-muted-foreground">{plan.description}</p>
               <ul className="mt-4 space-y-2 text-sm">
                 {plan.features.map((feature) => (
                   <li key={feature} className="flex items-center gap-2">
@@ -323,12 +340,38 @@ export function HomePage() {
                   </li>
                 ))}
               </ul>
-              <Button className="mt-6 w-full" variant={plan.highlight ? "default" : "secondary"}>
-                Escolher plano
+              <Button
+                className="mt-6 w-full"
+                variant={plan.highlight ? "default" : "secondary"}
+                onClick={() => handleSelectPlan(plan)}
+              >
+                {parsePrice(plan.price) === 0 ? "Começar grátis" : "Assinar agora"}
               </Button>
-            </article>
+            </motion.article>
           ))}
-        </div>
+        </motion.div>
+      </motion.section>
+
+      <motion.section
+        {...sectionProps}
+        className="grid gap-5 rounded-3xl border border-border bg-card p-6 md:grid-cols-3"
+      >
+        {testimonials.map((item, idx) => (
+          <motion.div
+            key={item.author}
+            variants={cardSlideIn}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ delay: idx * 0.1 }}
+            className="rounded-2xl border border-border/60 bg-background p-4"
+          >
+            <p className="text-sm leading-relaxed text-muted-foreground">
+              &ldquo;{item.text}&rdquo;
+            </p>
+            <p className="mt-3 text-sm font-semibold text-primary">{item.author}</p>
+          </motion.div>
+        ))}
       </motion.section>
 
       <footer className="mb-4 grid gap-4 rounded-3xl border border-border bg-card p-6 text-sm text-muted-foreground md:grid-cols-3">
