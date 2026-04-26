@@ -110,7 +110,7 @@ export function AuthModals() {
           <>
             <DialogHeader>
               <DialogTitle>Entrar</DialogTitle>
-              <DialogDescription>Acesse sua conta Minha Namorada.</DialogDescription>
+              <DialogDescription>Acesse sua conta RentalGirl.</DialogDescription>
             </DialogHeader>
             <form onSubmit={handleLogin} className="space-y-4">
               <div className="space-y-1.5">

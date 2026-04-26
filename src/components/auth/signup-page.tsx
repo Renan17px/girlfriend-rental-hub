@@ -121,7 +121,7 @@ export function SignupPage() {
   return (
     <main className="mx-auto flex w-full max-w-5xl flex-1 flex-col gap-6 px-4 py-8 sm:px-6 md:py-10">
       <header className="flex items-center justify-between">
-        <p className="text-xl font-semibold text-primary">Minha Namorada</p>
+        <p className="text-xl font-semibold text-primary">RentalGirl</p>
         <div className="flex gap-2">
           <Button variant="ghost" asChild>
             <Link to="/">Inicio</Link>
