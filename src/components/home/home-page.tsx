@@ -181,7 +181,7 @@ export function HomePage() {
   return (
     <main className="mx-auto flex w-full max-w-7xl flex-1 flex-col gap-20 px-4 py-8 sm:px-6 md:py-12">
       <div className="flex items-center justify-between">
-        <p className="text-xl font-semibold text-primary">Minha Namorada</p>
+        <p className="text-xl font-semibold text-primary">RentalGirl</p>
         <div className="flex items-center gap-2">
           <Button variant="ghost" asChild>
             <Link to="/">Inicio</Link>
@@ -376,7 +376,7 @@ export function HomePage() {
 
       <footer className="mb-4 grid gap-4 rounded-3xl border border-border bg-card p-6 text-sm text-muted-foreground md:grid-cols-3">
         <div>
-          <p className="text-lg font-semibold text-foreground">Minha Namorada</p>
+          <p className="text-lg font-semibold text-foreground">RentalGirl</p>
           <p className="mt-2">
             Plataforma brasileira focada em conexoes reais, seguras e com
             experiencia premium.
