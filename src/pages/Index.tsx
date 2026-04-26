@@ -1,8 +1,13 @@
 import { motion } from "framer-motion";
 import { Heart, MessageCircle, Search, ShieldCheck, Sparkles, Star } from "lucide-react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { featuredProfiles, plans, platformStats, testimonials, type FeaturedProfile } from "@/lib/mock-data";
+import { UserMenu } from "@/components/auth/UserMenu";
+import { useAuth } from "@/context/AuthContext";
+import { getProfileDetails } from "@/lib/profile-mock";
 import { cn } from "@/lib/utils";
+import { requireAuth, useOverlays } from "@/store/overlays-store";
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 24 },
@@ -17,6 +22,14 @@ const navLinks = [
 ];
 
 function ProfileCard({ profile }: { profile: FeaturedProfile }) {
+  const { user } = useAuth();
+  const { openProfileDrawer } = useOverlays();
+
+  const handleOpenProfile = () => {
+    const details = getProfileDetails(profile.id);
+    if (details) openProfileDrawer(details);
+  };
+
   return (
     <motion.article
       variants={fadeInUp}
@@ -65,8 +78,10 @@ function ProfileCard({ profile }: { profile: FeaturedProfile }) {
           )}
         </div>
         <div className="flex gap-2 pt-1">
-          <Button className="flex-1">Ver perfil</Button>
-          <Button variant="outline" className="flex-1">Conversar</Button>
+          <Button className="flex-1" onClick={handleOpenProfile}>Ver perfil</Button>
+          <Button variant="outline" className="flex-1" onClick={() => requireAuth(!!user, () => {})} asChild>
+            <Link to={user ? "/chat" : "/"}>Conversar</Link>
+          </Button>
         </div>
       </div>
     </motion.article>
@@ -74,6 +89,24 @@ function ProfileCard({ profile }: { profile: FeaturedProfile }) {
 }
 
 const Index = () => {
+  const { user } = useAuth();
+  const { openAuth, openCheckout } = useOverlays();
+
+  const parsePrice = (price: string) => {
+    const match = price.match(/(\d+),(\d+)/);
+    if (!match) return 0;
+    return parseInt(match[1], 10) * 100 + parseInt(match[2], 10);
+  };
+
+  const handleSelectPlan = (plan: (typeof plans)[number]) => {
+    const amountCents = parsePrice(plan.price);
+    requireAuth(!!user, () => {
+      if (amountCents > 0) {
+        openCheckout({ type: "plan", name: plan.name, amountCents });
+      }
+    });
+  };
+
   return (
     <div className="min-h-screen bg-background">
       {/* Nav */}
