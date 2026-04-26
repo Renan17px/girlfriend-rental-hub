@@ -112,14 +112,14 @@ const Index = () => {
       {/* Nav */}
       <header className="sticky top-0 z-50 border-b border-border/60 bg-background/80 backdrop-blur-xl">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
-          <a href="#" className="flex items-center gap-2">
+          <Link to="/" className="flex items-center gap-2">
             <span className="grid h-9 w-9 place-items-center rounded-full gradient-hero shadow-soft">
               <Heart className="h-4 w-4 text-white" fill="currentColor" />
             </span>
             <span className="font-serif text-2xl font-semibold tracking-tight text-foreground">
               Minha Namorada
             </span>
-          </a>
+          </Link>
           <nav className="hidden items-center gap-8 md:flex">
             {navLinks.map((l) => (
               <a key={l.href} href={l.href} className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary">
@@ -383,9 +383,9 @@ const Index = () => {
           <div>
             <p className="text-sm font-semibold uppercase tracking-wider">Legal</p>
             <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
-              <li><a href="#" className="hover:text-primary">Termos de uso</a></li>
-              <li><a href="#" className="hover:text-primary">Política de privacidade</a></li>
-              <li><a href="#" className="hover:text-primary">Central de suporte</a></li>
+              <li><Link to="/termos" className="hover:text-primary">Termos de uso</Link></li>
+              <li><Link to="/privacidade" className="hover:text-primary">Política de privacidade</Link></li>
+              <li><Link to="/denuncias" className="hover:text-primary">Central de suporte</Link></li>
             </ul>
           </div>
           <div>
