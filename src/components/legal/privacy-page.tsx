@@ -1,6 +1,5 @@
-"use client";
 
-import Link from "next/link";
+import { Link } from "react-router-dom";
 import { Database, Lock, ShieldCheck, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 

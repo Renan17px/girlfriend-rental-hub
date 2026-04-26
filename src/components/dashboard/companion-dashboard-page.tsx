@@ -1,7 +1,5 @@
-"use client";
 
-import Image from "next/image";
-import Link from "next/link";
+import { Link } from "react-router-dom";
 import { BarChart3, MessageCircle, Star, ToggleLeft, ToggleRight, Wallet } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { companionDashboard } from "@/lib/dashboard-mock";

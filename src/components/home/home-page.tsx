@@ -1,4 +1,3 @@
-"use client";
 
 import { motion } from "framer-motion";
 import {
@@ -12,8 +11,7 @@ import {
   Sun,
 } from "lucide-react";
 import { useEffect } from "react";
-import Image from "next/image";
-import Link from "next/link";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
   featuredProfiles,

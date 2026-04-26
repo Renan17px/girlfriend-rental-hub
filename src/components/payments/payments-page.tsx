@@ -1,6 +1,5 @@
-"use client";
 
-import Link from "next/link";
+import { Link } from "react-router-dom";
 import { useMemo, useState } from "react";
 import { CheckCircle2, Copy, CreditCard, QrCode, Receipt, Wallet } from "lucide-react";
 import { Button } from "@/components/ui/button";

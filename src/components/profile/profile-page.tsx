@@ -1,8 +1,6 @@
-"use client";
 
 import { motion } from "framer-motion";
-import Image from "next/image";
-import Link from "next/link";
+import { Link } from "react-router-dom";
 import { useState, type ComponentType } from "react";
 import {
   Flag,

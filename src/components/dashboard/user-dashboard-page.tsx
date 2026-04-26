@@ -1,7 +1,5 @@
-"use client";
 
-import Image from "next/image";
-import Link from "next/link";
+import { Link } from "react-router-dom";
 import { Bell, CreditCard, Heart, MessageCircle, Settings, ShieldAlert, Star, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { userDashboard } from "@/lib/dashboard-mock";
