@@ -1,8 +1,13 @@
 import { motion } from "framer-motion";
 import { Heart, MessageCircle, Search, ShieldCheck, Sparkles, Star } from "lucide-react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { featuredProfiles, plans, platformStats, testimonials, type FeaturedProfile } from "@/lib/mock-data";
+import { UserMenu } from "@/components/auth/UserMenu";
+import { useAuth } from "@/context/AuthContext";
+import { getProfileDetails } from "@/lib/profile-mock";
 import { cn } from "@/lib/utils";
+import { requireAuth, useOverlays } from "@/store/overlays-store";
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 24 },
@@ -17,6 +22,14 @@ const navLinks = [
 ];
 
 function ProfileCard({ profile }: { profile: FeaturedProfile }) {
+  const { user } = useAuth();
+  const { openProfileDrawer } = useOverlays();
+
+  const handleOpenProfile = () => {
+    const details = getProfileDetails(profile.id);
+    if (details) openProfileDrawer(details);
+  };
+
   return (
     <motion.article
       variants={fadeInUp}
@@ -65,8 +78,10 @@ function ProfileCard({ profile }: { profile: FeaturedProfile }) {
           )}
         </div>
         <div className="flex gap-2 pt-1">
-          <Button className="flex-1">Ver perfil</Button>
-          <Button variant="outline" className="flex-1">Conversar</Button>
+          <Button className="flex-1" onClick={handleOpenProfile}>Ver perfil</Button>
+          <Button variant="outline" className="flex-1" onClick={() => requireAuth(!!user, () => {})} asChild>
+            <Link to={user ? "/chat" : "/"}>Conversar</Link>
+          </Button>
         </div>
       </div>
     </motion.article>
@@ -74,19 +89,37 @@ function ProfileCard({ profile }: { profile: FeaturedProfile }) {
 }
 
 const Index = () => {
+  const { user } = useAuth();
+  const { openAuth, openCheckout } = useOverlays();
+
+  const parsePrice = (price: string) => {
+    const match = price.match(/(\d+),(\d+)/);
+    if (!match) return 0;
+    return parseInt(match[1], 10) * 100 + parseInt(match[2], 10);
+  };
+
+  const handleSelectPlan = (plan: (typeof plans)[number]) => {
+    const amountCents = parsePrice(plan.price);
+    requireAuth(!!user, () => {
+      if (amountCents > 0) {
+        openCheckout({ type: "plan", name: plan.name, amountCents });
+      }
+    });
+  };
+
   return (
     <div className="min-h-screen bg-background">
       {/* Nav */}
       <header className="sticky top-0 z-50 border-b border-border/60 bg-background/80 backdrop-blur-xl">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
-          <a href="#" className="flex items-center gap-2">
+          <Link to="/" className="flex items-center gap-2">
             <span className="grid h-9 w-9 place-items-center rounded-full gradient-hero shadow-soft">
               <Heart className="h-4 w-4 text-white" fill="currentColor" />
             </span>
             <span className="font-serif text-2xl font-semibold tracking-tight text-foreground">
               Minha Namorada
             </span>
-          </a>
+          </Link>
           <nav className="hidden items-center gap-8 md:flex">
             {navLinks.map((l) => (
               <a key={l.href} href={l.href} className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary">
@@ -95,8 +128,14 @@ const Index = () => {
             ))}
           </nav>
           <div className="flex items-center gap-2">
-            <Button variant="ghost" className="hidden sm:inline-flex">Entrar</Button>
-            <Button className="rounded-full px-5">Criar conta</Button>
+            {user ? (
+              <UserMenu />
+            ) : (
+              <>
+                <Button variant="ghost" className="hidden sm:inline-flex" onClick={() => openAuth("login")}>Entrar</Button>
+                <Button className="rounded-full px-5" onClick={() => openAuth("signup")}>Criar conta</Button>
+              </>
+            )}
           </div>
         </div>
       </header>
@@ -135,8 +174,8 @@ const Index = () => {
                   className="w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground"
                 />
               </div>
-              <Button size="lg" className="h-12 rounded-xl bg-foreground text-background hover:bg-foreground/90">
-                Buscar agora
+              <Button size="lg" className="h-12 rounded-xl bg-foreground text-background hover:bg-foreground/90" asChild>
+                <Link to="/busca">Buscar agora</Link>
               </Button>
             </div>
 
@@ -180,7 +219,9 @@ const Index = () => {
                 Selecionados por avaliações, verificação e relevância para você.
               </p>
             </div>
-            <Button variant="outline" className="rounded-full">Explorar todos</Button>
+            <Button variant="outline" className="rounded-full" asChild>
+              <Link to="/busca">Explorar todos</Link>
+            </Button>
           </div>
           <motion.div
             initial="hidden"
@@ -265,7 +306,7 @@ const Index = () => {
                     </li>
                   ))}
                 </ul>
-                <Button className="mt-8 w-full rounded-full" variant={plan.highlight ? "default" : "outline"}>
+                <Button className="mt-8 w-full rounded-full" variant={plan.highlight ? "default" : "outline"} onClick={() => handleSelectPlan(plan)}>
                   Escolher plano
                 </Button>
               </article>
@@ -319,7 +360,7 @@ const Index = () => {
           <p className="mx-auto mt-4 max-w-xl text-white/85">
             Cadastro gratuito em menos de um minuto. Cancele quando quiser.
           </p>
-          <Button size="lg" className="mt-8 rounded-full bg-white px-8 text-primary hover:bg-white/90">
+          <Button size="lg" className="mt-8 rounded-full bg-white px-8 text-primary hover:bg-white/90" onClick={() => openAuth("signup")}>
             Criar minha conta
           </Button>
         </motion.section>
@@ -342,9 +383,9 @@ const Index = () => {
           <div>
             <p className="text-sm font-semibold uppercase tracking-wider">Legal</p>
             <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
-              <li><a href="#" className="hover:text-primary">Termos de uso</a></li>
-              <li><a href="#" className="hover:text-primary">Política de privacidade</a></li>
-              <li><a href="#" className="hover:text-primary">Central de suporte</a></li>
+              <li><Link to="/termos" className="hover:text-primary">Termos de uso</Link></li>
+              <li><Link to="/privacidade" className="hover:text-primary">Política de privacidade</Link></li>
+              <li><Link to="/denuncias" className="hover:text-primary">Central de suporte</Link></li>
             </ul>
           </div>
           <div>
