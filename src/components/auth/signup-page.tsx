@@ -1,4 +1,5 @@
 
+import Image from "@/components/ui/image";
 import { Link } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";
 import { CheckCircle2, ChevronLeft, ChevronRight, UploadCloud } from "lucide-react";

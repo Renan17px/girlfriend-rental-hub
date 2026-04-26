@@ -1,4 +1,5 @@
 
+import Image from "@/components/ui/image";
 import { Link } from "react-router-dom";
 import { BarChart3, MessageCircle, Star, ToggleLeft, ToggleRight, Wallet } from "lucide-react";
 import { Button } from "@/components/ui/button";

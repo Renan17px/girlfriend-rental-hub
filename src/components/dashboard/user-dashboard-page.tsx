@@ -1,4 +1,5 @@
 
+import Image from "@/components/ui/image";
 import { Link } from "react-router-dom";
 import { Bell, CreditCard, Heart, MessageCircle, Settings, ShieldAlert, Star, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";

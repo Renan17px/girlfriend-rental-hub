@@ -1,4 +1,5 @@
 
+import Image from "@/components/ui/image";
 import { Link } from "react-router-dom";
 import { useMemo, useState } from "react";
 import { Ban, Check, CheckCheck, MessageCircle, Send, Smile } from "lucide-react";
