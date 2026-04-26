@@ -10,13 +10,13 @@ export function PrivacyPage() {
         <p className="text-xl font-semibold text-primary">Minha Namorada</p>
         <div className="flex items-center gap-2">
           <Button variant="ghost" asChild>
-            <Link href="/">Inicio</Link>
+            <Link to="/">Inicio</Link>
           </Button>
           <Button variant="ghost" asChild>
-            <Link href="/termos">Termos</Link>
+            <Link to="/termos">Termos</Link>
           </Button>
           <Button variant="ghost" asChild>
-            <Link href="/denuncias">Denuncias</Link>
+            <Link to="/denuncias">Denuncias</Link>
           </Button>
         </div>
       </header>

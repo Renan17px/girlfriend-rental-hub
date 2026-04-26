@@ -12,19 +12,19 @@ export function UserDashboardPage() {
         <p className="text-xl font-semibold text-primary">Minha Namorada</p>
         <div className="flex items-center gap-2">
           <Button variant="ghost" asChild>
-            <Link href="/">Inicio</Link>
+            <Link to="/">Inicio</Link>
           </Button>
           <Button variant="ghost" asChild>
-            <Link href="/busca">Buscar perfis</Link>
+            <Link to="/busca">Buscar perfis</Link>
           </Button>
           <Button variant="ghost" asChild>
-            <Link href="/chat">Chat</Link>
+            <Link to="/chat">Chat</Link>
           </Button>
           <Button variant="ghost" asChild>
-            <Link href="/pagamentos">Pagamentos</Link>
+            <Link to="/pagamentos">Pagamentos</Link>
           </Button>
           <Button variant="ghost" asChild>
-            <Link href="/painel/namorada">Painel Namorada</Link>
+            <Link to="/painel/namorada">Painel Namorada</Link>
           </Button>
         </div>
       </header>

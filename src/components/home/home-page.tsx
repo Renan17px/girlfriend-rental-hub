@@ -85,10 +85,10 @@ function ProfileCard({ profile }: { profile: FeaturedProfile }) {
         </div>
         <div className="flex gap-2">
           <Button className="flex-1" asChild>
-            <Link href={`/perfil/${profile.id}`}>Ver perfil</Link>
+            <Link to={`/perfil/${profile.id}`}>Ver perfil</Link>
           </Button>
           <Button variant="secondary" className="flex-1" asChild>
-            <Link href="/chat">Chat</Link>
+            <Link to="/chat">Chat</Link>
           </Button>
         </div>
       </div>
@@ -129,25 +129,25 @@ export function HomePage() {
         <p className="text-xl font-semibold text-primary">Minha Namorada</p>
         <div className="flex items-center gap-2">
           <Button variant="ghost" asChild>
-            <Link href="/">Inicio</Link>
+            <Link to="/">Inicio</Link>
           </Button>
           <Button variant="ghost" asChild>
-            <Link href="/busca">Buscar perfis</Link>
+            <Link to="/busca">Buscar perfis</Link>
           </Button>
           <Button variant="ghost" asChild>
-            <Link href="/cadastro">Criar conta</Link>
+            <Link to="/cadastro">Criar conta</Link>
           </Button>
           <Button variant="ghost" asChild>
-            <Link href="/painel">Painel</Link>
+            <Link to="/painel">Painel</Link>
           </Button>
           <Button variant="ghost" asChild>
-            <Link href="/pagamentos">Pagamentos</Link>
+            <Link to="/pagamentos">Pagamentos</Link>
           </Button>
           <Button variant="ghost" asChild>
-            <Link href="/verificacao">Verificacao</Link>
+            <Link to="/verificacao">Verificacao</Link>
           </Button>
           <Button variant="ghost" asChild>
-            <Link href="/chat">Chat</Link>
+            <Link to="/chat">Chat</Link>
           </Button>
         </div>
       </div>
@@ -180,7 +180,7 @@ export function HomePage() {
             />
           </div>
           <Button className="h-11 rounded-xl bg-[#880e4f] hover:bg-[#6b0b3e]" asChild>
-            <Link href="/busca">Buscar agora</Link>
+            <Link to="/busca">Buscar agora</Link>
           </Button>
         </div>
       </motion.section>
@@ -207,7 +207,7 @@ export function HomePage() {
         <div className="flex items-center justify-between">
           <h2 className="text-3xl font-semibold">Perfis em destaque</h2>
           <Button variant="outline" asChild>
-            <Link href="/busca">Explorar todos</Link>
+            <Link to="/busca">Explorar todos</Link>
           </Button>
         </div>
         <motion.div
@@ -341,17 +341,17 @@ export function HomePage() {
         <div className="space-y-1">
           <p className="font-medium text-foreground">Links legais</p>
           <p>
-            <Link href="/termos" className="hover:text-primary">
+            <Link to="/termos" className="hover:text-primary">
               Termos de uso
             </Link>
           </p>
           <p>
-            <Link href="/privacidade" className="hover:text-primary">
+            <Link to="/privacidade" className="hover:text-primary">
               Politica de privacidade
             </Link>
           </p>
           <p>
-            <Link href="/denuncias" className="hover:text-primary">
+            <Link to="/denuncias" className="hover:text-primary">
               Central de suporte
             </Link>
           </p>

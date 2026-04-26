@@ -15,16 +15,16 @@ export function CompanionDashboardPage() {
         <p className="text-xl font-semibold text-primary">Minha Namorada</p>
         <div className="flex items-center gap-2">
           <Button variant="ghost" asChild>
-            <Link href="/">Inicio</Link>
+            <Link to="/">Inicio</Link>
           </Button>
           <Button variant="ghost" asChild>
-            <Link href="/chat">Chat</Link>
+            <Link to="/chat">Chat</Link>
           </Button>
           <Button variant="ghost" asChild>
-            <Link href="/painel">Painel Usuario</Link>
+            <Link to="/painel">Painel Usuario</Link>
           </Button>
           <Button variant="ghost" asChild>
-            <Link href="/pagamentos">Pagamentos</Link>
+            <Link to="/pagamentos">Pagamentos</Link>
           </Button>
         </div>
       </header>

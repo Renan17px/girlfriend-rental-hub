@@ -88,22 +88,22 @@ export function SearchPage() {
           <p className="text-lg font-semibold">Minha Namorada</p>
           <div className="flex items-center gap-2">
             <Button variant="secondary" asChild>
-              <Link href="/">Inicio</Link>
+              <Link to="/">Inicio</Link>
             </Button>
             <Button variant="secondary" asChild>
-              <Link href="/cadastro">Criar conta</Link>
+              <Link to="/cadastro">Criar conta</Link>
             </Button>
             <Button variant="secondary" asChild>
-              <Link href="/painel">Painel</Link>
+              <Link to="/painel">Painel</Link>
             </Button>
             <Button variant="secondary" asChild>
-              <Link href="/pagamentos">Pagamentos</Link>
+              <Link to="/pagamentos">Pagamentos</Link>
             </Button>
             <Button variant="secondary" asChild>
-              <Link href="/verificacao">Verificacao</Link>
+              <Link to="/verificacao">Verificacao</Link>
             </Button>
             <Button variant="secondary" asChild>
-              <Link href="/chat">Chat</Link>
+              <Link to="/chat">Chat</Link>
             </Button>
           </div>
         </div>
@@ -311,10 +311,10 @@ export function SearchPage() {
 
                   <div className="flex gap-2">
                     <Button className="flex-1" asChild>
-                      <Link href={`/perfil/${profile.id}`}>Ver perfil</Link>
+                      <Link to={`/perfil/${profile.id}`}>Ver perfil</Link>
                     </Button>
                     <Button variant="secondary" className="flex-1" asChild>
-                      <Link href="/chat">
+                      <Link to="/chat">
                         <MessageCircle className="mr-1 h-4 w-4" />
                         Chat
                       </Link>

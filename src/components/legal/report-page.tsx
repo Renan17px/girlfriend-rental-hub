@@ -25,13 +25,13 @@ export function ReportPage() {
         <p className="text-xl font-semibold text-primary">Minha Namorada</p>
         <div className="flex items-center gap-2">
           <Button variant="ghost" asChild>
-            <Link href="/">Inicio</Link>
+            <Link to="/">Inicio</Link>
           </Button>
           <Button variant="ghost" asChild>
-            <Link href="/termos">Termos</Link>
+            <Link to="/termos">Termos</Link>
           </Button>
           <Button variant="ghost" asChild>
-            <Link href="/privacidade">Privacidade</Link>
+            <Link to="/privacidade">Privacidade</Link>
           </Button>
         </div>
       </header>

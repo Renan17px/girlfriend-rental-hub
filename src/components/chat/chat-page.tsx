@@ -39,25 +39,25 @@ export function ChatPage() {
         <p className="text-xl font-semibold text-primary">Minha Namorada</p>
         <div className="flex items-center gap-2">
           <Button variant="ghost" asChild>
-            <Link href="/">Inicio</Link>
+            <Link to="/">Inicio</Link>
           </Button>
           <Button variant="ghost" asChild>
-            <Link href="/busca">Buscar perfis</Link>
+            <Link to="/busca">Buscar perfis</Link>
           </Button>
           <Button variant="ghost" asChild>
-            <Link href="/cadastro">Criar conta</Link>
+            <Link to="/cadastro">Criar conta</Link>
           </Button>
           <Button variant="ghost" asChild>
-            <Link href="/painel">Painel</Link>
+            <Link to="/painel">Painel</Link>
           </Button>
           <Button variant="ghost" asChild>
-            <Link href="/pagamentos">Pagamentos</Link>
+            <Link to="/pagamentos">Pagamentos</Link>
           </Button>
           <Button variant="ghost" asChild>
-            <Link href="/verificacao">Verificacao</Link>
+            <Link to="/verificacao">Verificacao</Link>
           </Button>
           <Button variant="ghost" asChild className="relative">
-            <Link href="/chat">
+            <Link to="/chat">
               Chat
               {unreadCount > 0 && (
                 <span className="absolute -right-2 -top-2 rounded-full bg-primary px-1.5 text-[10px] text-primary-foreground">

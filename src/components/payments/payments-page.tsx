@@ -28,19 +28,19 @@ export function PaymentsPage() {
         <p className="text-xl font-semibold text-primary">Minha Namorada</p>
         <div className="flex items-center gap-2">
           <Button variant="ghost" asChild>
-            <Link href="/">Inicio</Link>
+            <Link to="/">Inicio</Link>
           </Button>
           <Button variant="ghost" asChild>
-            <Link href="/busca">Buscar perfis</Link>
+            <Link to="/busca">Buscar perfis</Link>
           </Button>
           <Button variant="ghost" asChild>
-            <Link href="/painel">Painel</Link>
+            <Link to="/painel">Painel</Link>
           </Button>
           <Button variant="ghost" asChild>
-            <Link href="/verificacao">Verificacao</Link>
+            <Link to="/verificacao">Verificacao</Link>
           </Button>
           <Button variant="ghost" asChild>
-            <Link href="/chat">Chat</Link>
+            <Link to="/chat">Chat</Link>
           </Button>
         </div>
       </header>
